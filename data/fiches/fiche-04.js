@@ -1,5 +1,5 @@
 DVPE.fiche({
-  id: 4, statut: "publiée", debut: "2023-02", fin: "2024-07",
+  id: 4, direction: "DPE", statut: "publiée", debut: "2023-02", fin: "2024-07",
   court: "Cybersécurité",
   titre: "Cybersécurité : PME et collectivités tiendront-elles le choc ?",
   sousTitre: "Menace en hausse, intelligence artificielle des deux côtés, obligations nouvelles : trois futurs à 10 – 15 ans",

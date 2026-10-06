@@ -1,5 +1,5 @@
 DVPE.fiche({
-  id: 1, statut: "publiée", debut: "2020-04", fin: "2021-12",
+  id: 1, direction: "DVPE", statut: "publiée", debut: "2020-04", fin: "2021-12",
   court: "Covid-19",
   titre: "Covid-19 : quel territoire après la crise ?",
   sousTitre: "Reprise lente, rebond vert ou dislocation : trois trajectoires chiffrées pour Angers Loire Métropole, réajustées pendant la crise",

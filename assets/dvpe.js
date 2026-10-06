@@ -1,4 +1,4 @@
-/* DVPE · Aldev — moteur commun : chargement des données et rendu des fiches */
+/* DPE · Aldev (espace de noms JS « DVPE » conservé) — moteur commun : chargement des données et rendu des fiches */
 (function () {
   const D = (window.DVPE = { fiches: {}, liste: [] });
 
@@ -97,12 +97,12 @@
   D.rendreFiche = function (f) {
     const n = f.id;
     const prec = D.liste.includes(n - 1) ? n - 1 : null, suiv = D.liste.includes(n + 1) ? n + 1 : null;
-    document.title = `Fiche ${n} · ${f.titre} · DVPE Aldev`;
+    document.title = `Fiche ${n} · ${f.titre} · DPE Aldev`;
     return `
     <header class="f-tete">
-      <a class="marque" href="index.html" aria-label="Accueil DVPE"><span>aldev</span><small>Angers Loire Développement</small></a>
+      <a class="marque" href="index.html" aria-label="Accueil DPE"><span>aldev</span><small>Angers Loire Développement</small></a>
       <div class="f-titres">
-        <p class="kicker">DVPE · Fiche prospective n°${n}${f.statut === "en cours" ? ' <span class="badge">En cours</span>' : ""}</p>
+        <p class="kicker">${esc(f.direction || "DPE")} · Fiche prospective n°${n}${f.statut === "en cours" ? ' <span class="badge">En cours</span>' : ""}</p>
         <h1>${t(f.titre)}</h1>
         <p class="f-sous">${t(f.sousTitre)}</p>
       </div>
@@ -132,7 +132,7 @@
       <section class="reel"><h2>6 · ${t(f.reel.titre)}</h2>${reel(f.reel)}</section>
     </div>
 
-    <footer class="f-pied"><span>${t(f.source)}</span><span>DVPE · Aldev</span></footer>
+    <footer class="f-pied"><span>${t(f.source)}</span><span>${esc(f.direction || "DPE")} · Aldev</span></footer>
 
     <nav class="f-nav" aria-label="Navigation entre fiches">
       ${prec ? `<a href="fiche.html?n=${prec}">‹ Fiche ${prec}</a>` : "<span></span>"}

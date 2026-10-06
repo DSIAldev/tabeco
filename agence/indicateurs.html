@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TB03 · Indicateurs d'agence · DPE Aldev</title>
+<link rel="stylesheet" href="../barometre/style.css">
+<link rel="stylesheet" href="agence.css">
+</head>
+<body>
+<nav class="nav"><a href="../index.html">Accueil DPE</a><a href="../barometre/TB01.html">TB01 Baromètre</a><a href="../barometre/TB02.html">TB02 Chômage</a><a href="indicateurs.html" aria-current="page">TB03 Agence</a><span class="info" id="info"></span></nav>
+<!-- data-statut : « MAQUETTE » tant que les données ne sont pas validées ; vider pour retirer la mention -->
+<main class="ag" id="ag" data-statut="MAQUETTE" aria-live="polite"></main>
+<script src="agence.js"></script>
+<script>
+(async function () {
+  const el = document.getElementById("ag"), G = AGENCE;
+  try { await G.charger(); } catch (e) { return G.erreur(el, e); }
+  const m = G.m, statut = el.dataset.statut;
+  const lireAnnee = () => { const h = location.hash.slice(1); return m.annees.includes(h) ? h : m.annees[m.annees.length - 1]; };
+
+  function rendre(y) {
+    const sections = m.dom.map((d) => G.section(d, y)).filter(Boolean);
+    el.innerHTML = `
+      <div class="entete" style="flex-direction:column;align-items:stretch">
+        <div style="display:flex;justify-content:space-between;gap:16px">
+          <div><div class="kicker">Aldev · Direction de la Prospective économique</div>
+            <h1>Indicateurs d'agence ${y}</h1>
+            <div class="st">Activité de l'agence sur le territoire d'Angers Loire Métropole</div></div>
+          <div class="droite">${statut ? `<div class="statut">${G.esc(statut)}</div>` : ""}<div class="tb">TB03</div></div>
+        </div>
+        <div class="annees" role="group" aria-label="Année affichée"><span>Année</span>${m.annees.map((a) => `<button type="button" data-a="${a}" aria-pressed="${a === y}">${a}</button>`).join("")}</div>
+      </div>
+      <div class="bref"><strong>En bref ${y}.</strong> ${G.bref(y)}</div>
+      <nav class="sommaire" aria-label="Domaines">${m.dom.map((d) => `<a href="#${d.code}" data-ancre>${G.esc(d.libelle)}</a>`).join("")}</nav>
+      ${sections.join("")}
+      <div class="pied">Source : ${G.esc(m.source || "")}. Évolutions calculées par rapport à l'année précédente disponible ; ▲▼ en bleu si favorable, en orange si défavorable, gris si neutre. Taux marqués « calculé » : recalculés depuis leurs composantes. Codes : ACC, FIN, EMA… = indicateur, TB03 = tableau.</div>`;
+    el.querySelectorAll(".annees button").forEach((b) => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.a); rendre(b.dataset.a); }));
+    el.querySelectorAll("[data-ancre]").forEach((a) => a.addEventListener("click", (ev) => { ev.preventDefault(); document.getElementById(a.getAttribute("href").slice(1)).scrollIntoView({ behavior: "smooth" }); }));
+    document.title = `TB03 · Indicateurs d'agence ${y} · DPE Aldev`;
+  }
+  rendre(lireAnnee());
+  window.addEventListener("hashchange", () => { if (m.annees.includes(location.hash.slice(1))) rendre(lireAnnee()); });
+  document.getElementById("info").textContent = G.modeSecours ? "Données : data.js (secours)" : "Données : CSV";
+})();
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 DVPE.fiche({
-  id: 5, statut: "publiée", debut: "2024-10", fin: "2026-04",
+  id: 5, direction: "DPE", statut: "publiée", debut: "2024-10", fin: "2026-04",
   court: "Intelligence artificielle",
   titre: "Intelligence artificielle : quelle carte pour Angers ?",
   sousTitre: "Hégémonie, croissance maîtrisée ou désaveu : trois futurs de l'IA et ce qu'ils changent pour le territoire",

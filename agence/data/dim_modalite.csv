@@ -1,0 +1,39 @@
+code;axe;libelle;ordre
+NAT-DEV;nature;Développement;0
+NAT-CRE;nature;Création ou reprise;1
+NAT-IMP;nature;Implantation;2
+NAT-PRO;nature;Proximité / Réseau;3
+NAT-RES;nature;Restructuration;4
+SEC-SER;secteur;Services;0
+SEC-COM;secteur;Commerce;1
+SEC-IND;secteur;Industrie;2
+SEC-BTP;secteur;BTP;3
+ORI-ALM;origine;Angers Loire Métropole;0
+ORI-FRA;origine;France hors ALM;1
+ORI-MON;origine;Monde hors France;2
+FIL-VEG;filiere;Végétal;0
+FIL-NUM;filiere;Numérique / Électronique;1
+FIL-SAN;filiere;Santé et Silver économie;2
+FIL-INN;filiere;Innovation;3
+FIL-ESS;filiere;Économie sociale et solidaire;4
+FIL-TER;filiere;Territoire intelligent;5
+FIL-ICC;filiere;Industries culturelles et créatives;6
+FIL-TOU;filiere;Tourisme;7
+FIL-ETU;filiere;Entrepreneuriat étudiant;8
+FIL-INT;filiere;Inter-filières;9
+CPER-IMM;cper;Immobilier;0
+CPER-EQU;cper;Équipement de recherche;1
+CPER-NUM;cper;Numérique;2
+CPER-INN;cper;Innovation;3
+REC-SUB;recette;Subventions d'exploitation;0
+REC-CA;recette;Chiffre d'affaires;1
+REC-DIV;recette;Recettes diverses;2
+DEP-SAL;depense;Masse salariale;0
+DEP-ACH;depense;Achats et autres charges;1
+DEP-AFF;depense;Redevance d'affermage;2
+BDG-ESR;budget;Enseignement supérieur et recherche;0
+BDG-EMP;budget;Emploi et insertion;1
+BDG-FIL;budget;Filières et innovation;2
+BDG-INT;budget;Interventions économiques diverses;3
+BDG-AER;budget;Angers Loire Aéroport (budget annexe);4
+BDG-IMM;budget;Immobilier d'entreprise;5

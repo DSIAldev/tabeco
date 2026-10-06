@@ -1,0 +1,67 @@
+code;domaine;libelle;libelle_court;unite;sens_favorable;calcul;axes
+ACC01;ACC;Projets d'entreprise accompagnés;Projets accompagnés;projets;hausse;;nature,secteur,origine
+ACC02;ACC;Projets d'entreprise décidés ou aboutis;Projets décidés;projets;hausse;;nature,secteur,origine
+ACC03;ACC;Taux de concrétisation (décidés / accompagnés);Taux de concrétisation;%;hausse;ACC02/ACC01;
+ACC04;ACC;Part des projets accompagnés issus d'ALM;Part ALM des projets;%;neutre;ACC01[ORI-ALM]/ACC01;
+ACC05;ACC;Porteurs de projet accompagnés en QPV;Porteurs accompagnés QPV;personnes;hausse;;
+ACC06;ACC;Entreprises créées en QPV;Entreprises créées QPV;entreprises;hausse;;
+ACC07;ACC;Actions collectives menées en QPV;Actions collectives QPV;actions;hausse;;
+ACC08;ACC;Participants aux actions collectives QPV;Participants QPV;personnes;hausse;;
+FIN01;FIN;Prêts TPE Initiative Anjou : dossiers retenus (périmètre jusqu'en 2022);Prêts Initiative Anjou;dossiers;hausse;;
+FIN02;FIN;Prêts TPE Initiative Anjou : montant prêté (périmètre jusqu'en 2022);Montant Initiative Anjou;k€;hausse;;
+FIN03;FIN;Création-reprise TPE, tous dispositifs : dossiers retenus (depuis 2023);Dossiers TPE;dossiers;hausse;;
+FIN04;FIN;Création-reprise TPE, tous dispositifs : montant prêté ou alloué (depuis 2023);Montant TPE;k€;hausse;;
+FIN05;FIN;Primes Création / Incube : dossiers;Primes Création / Incube;dossiers;hausse;;
+FIN06;FIN;Primes Création / Incube : montant versé;Montant primes;k€;hausse;;
+FIN07;FIN;Fonds d'intervention économique (FIE) : dossiers;Dossiers FIE;dossiers;hausse;;
+FIN08;FIN;Fonds d'intervention économique (FIE) : montant versé;Montant FIE;k€;hausse;;
+FIN09;FIN;Fonds de revitalisation du territoire (FRT) : dossiers;Dossiers FRT;dossiers;hausse;;
+FIN10;FIN;Fonds de revitalisation du territoire (FRT) : montant versé;Montant FRT;k€;hausse;;
+FIN11;FIN;Entreprises ayant reçu un soutien financier;Entreprises soutenues;entreprises;hausse;;
+EMA01;EMA;Bénéficiaires d'un accompagnement vers l'emploi;Personnes accompagnées;personnes;hausse;;
+EMA02;EMA;Accès à un emploi durable (CDI ou CDD > 6 mois);Emplois durables;personnes;hausse;;
+EMA03;EMA;Taux d'accès à l'emploi durable;Taux d'emploi durable;%;hausse;EMA02/EMA01;
+EMA04;EMA;Entreprises concernées par les programmes emploi;Entreprises concernées;entreprises;hausse;;
+INS01;INS;Heures d'insertion réalisées (marchés publics);Heures d'insertion;heures;hausse;;
+INS02;INS;Personnes ayant signé un contrat d'insertion;Personnes en insertion;personnes;hausse;;
+INS03;INS;Contrats d'insertion signés;Contrats d'insertion;contrats;hausse;;
+INS04;INS;Entreprises mobilisées sur les clauses;Entreprises mobilisées;entreprises;hausse;;
+INS05;INS;Dont structures d'insertion par l'activité économique (SIAE);Dont SIAE;structures;neutre;;
+IMM01;IMM;Surface globale du parc locatif;Surface du parc;m²;neutre;;
+IMM02;IMM;Taux d'occupation du parc locatif;Taux d'occupation;%;hausse;;
+IMM03;IMM;Locataires du parc;Locataires;locataires;hausse;;
+IMM04;IMM;Nouveaux locataires accueillis;Nouveaux locataires;locataires;hausse;;
+IMM05;IMM;Surface louée aux nouveaux locataires;Surface nouveaux locataires;m²;hausse;;
+IMM06;IMM;Recettes de location;Recettes locatives;k€;hausse;;
+IMM07;IMM;Parcelles vendues dans les parcs d'activités;Parcelles vendues;parcelles;hausse;;
+IMM08;IMM;Surface foncière vendue;Surface vendue;m²;hausse;;
+IMM09;IMM;Recette des ventes foncières actées;Recette foncière;k€;hausse;;
+IMM10;IMM;Compromis de vente en cours au 31/12;Compromis en cours;compromis;hausse;;
+IMM11;IMM;Surface sous compromis;Surface sous compromis;m²;hausse;;
+IMM12;IMM;Recette estimée des compromis;Recette estimée compromis;k€;hausse;;
+IMM13;IMM;Biens immobiliers vendus;Biens vendus;biens;neutre;;
+IMM14;IMM;Surface bâtie vendue;Surface bâtie vendue;m²;neutre;;
+IMM15;IMM;Recette des cessions immobilières;Recette cessions immo.;k€;neutre;;
+FIL01;FIL;Projets filières accompagnés;Projets filières;projets;hausse;;filiere
+ESR01;ESR;Projets ESRI suivis ou accompagnés;Projets ESRI;projets;hausse;;
+ESR02;ESR;Projets de recherche démarrés dans l'année;Recherche : démarrés;projets;hausse;;
+ESR03;ESR;Projets de recherche en cours démarrés les années précédentes;Recherche : en cours;projets;neutre;;
+ESR04;ESR;Colloques scientifiques financés;Colloques financés;colloques;hausse;;
+ESR05;ESR;Projets soutenus dans le cadre du CPER 2021-2027;Projets CPER;projets;hausse;;cper
+ESR11;ESR;Projets CPER : équipements de recherche;CPER équipements;projets;hausse;;
+ESR12;ESR;Projets immobiliers ou d'équipement de recherche soutenus (CPER précédent);Immobilier et équipement;projets;hausse;;cper
+ESR06;ESR;Projets immobiliers ESR démarrés;Immobilier démarré;projets;hausse;;
+ESR07;ESR;Projets ESR en études préalables;Études préalables;projets;neutre;;
+ESR08;ESR;Projets ESR en suivi d'études et dispositifs;Suivi d'études;projets;neutre;;
+ESR09;ESR;Étudiants-chercheurs financés (thèses, post-doc);Thèses et post-doc;personnes;hausse;;
+ESR10;ESR;Subvention ALM au CPER 2021-2027;Subvention CPER;k€;neutre;;
+RSE01;RSE;Mécène à Angers : projets concrétisés;Projets de mécénat;projets;hausse;;
+RSE02;RSE;Mécène à Angers : mécènes engagés;Mécènes;mécènes;hausse;;
+RSE03;RSE;Mécène à Angers : montant collecté;Montant mécénat;k€;hausse;;
+RSE04;RSE;RSE interne : heures d'insertion (tri et recyclage);Heures d'insertion RSE;heures;hausse;;
+RSE05;RSE;Score RSE Impact France (ISO 26000);Score Impact France;/100;hausse;;
+BUD01;BUD;Recettes de fonctionnement;Recettes;k€;neutre;;recette
+BUD02;BUD;Dépenses d'exploitation;Dépenses;k€;neutre;;depense
+BUD03;BUD;Résultat de l'exercice;Résultat;k€;hausse;;
+BUD04;BUD;Coût net pour ALM;Coût net ALM;k€;neutre;;
+BUD05;BUD;Budgets publics gérés pour ALM;Budgets gérés pour ALM;k€;neutre;;budget

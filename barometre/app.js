@@ -1,4 +1,4 @@
-/* Baromètre DVPE · Aldev — moteur commun TB01 / TB02
+/* Baromètre DPE · Aldev — moteur commun TB01 / TB02
    Aucune valeur en dur : tout vient de data/*.csv (ou data/data.js en secours file://). */
 (function () {
   "use strict";

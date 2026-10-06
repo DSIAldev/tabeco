@@ -1,5 +1,5 @@
 DVPE.fiche({
-  id: 6, statut: "en cours", debut: "2026-02", fin: null,
+  id: 6, direction: "DPE", statut: "en cours", debut: "2026-02", fin: null,
   court: "Horticulture ornementale",
   titre: "Horticulture ornementale : quel avenir pour la filière angevine ?",
   sousTitre: "Eau, énergie, concurrence et main-d'œuvre : une filière historique du territoire face à ses ruptures",

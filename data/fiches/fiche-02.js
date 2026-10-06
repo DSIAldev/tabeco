@@ -1,5 +1,5 @@
 DVPE.fiche({
-  id: 2, statut: "publiée", debut: "2021-09", fin: "2022-02",
+  id: 2, direction: "DVPE", statut: "publiée", debut: "2021-09", fin: "2022-02",
   court: "Énergies de la mobilité",
   titre: "Quelle énergie fera rouler nos véhicules en 2050 ?",
   sousTitre: "Électrique, hydrogène ou retour du carbone : trois futurs possibles et ce qu'ils changent pour le territoire",

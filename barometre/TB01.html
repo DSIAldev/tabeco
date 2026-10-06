@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TB01 · Baromètre économique · DVPE Aldev</title>
+<title>TB01 · Baromètre économique · DPE Aldev</title>
 <link rel="stylesheet" href="style.css">
 <style>@page { size: A4 portrait; margin: 0 }</style>
 </head>
 <body>
-<nav class="nav"><a href="../index.html">Accueil DVPE</a><a href="TB01.html" aria-current="page">TB01 Baromètre</a><a href="TB02.html">TB02 Chômage</a><span class="info" id="info"></span></nav>
+<nav class="nav"><a href="../index.html">Accueil DPE</a><a href="TB01.html" aria-current="page">TB01 Baromètre</a><a href="TB02.html">TB02 Chômage</a><span class="info" id="info"></span></nav>
 <!-- data-statut : « MAQUETTE » tant que les données ne sont pas validées ; vider l'attribut pour retirer la mention -->
 <div class="cadre"><div class="page portrait" id="page" data-tableau="TB01" data-statut="MAQUETTE"></div></div>
 <script src="app.js"></script>
@@ -86,7 +86,7 @@
   const statut = page.dataset.statut;
   page.innerHTML = `
     <div class="entete">
-      <div><div class="kicker">Aldev · Direction Veille et Prospective Économiques</div>
+      <div><div class="kicker">Aldev · Direction de la Prospective économique</div>
         <h1>Baromètre économique</h1><div class="st">${A.esc(A.lib("EPCI244900015"))} · édition ${edition}</div></div>
       <div class="droite">${statut ? `<div class="statut">${A.esc(statut)}</div>` : ""}<div class="tb">${tb.code}</div></div>
     </div>

@@ -1,5 +1,5 @@
 DVPE.fiche({
-  id: 3, statut: "publiée", debut: "2023-01", fin: "2023-10",
+  id: 3, direction: "DVPE", statut: "publiée", debut: "2023-01", fin: "2023-10",
   court: "Cloud et PME",
   titre: "Le cloud, solution d'avenir pour les PME ?",
   sousTitre: "Abonnement ou investissement, dépendance, souveraineté : trois futurs de l'informatique des entreprises",

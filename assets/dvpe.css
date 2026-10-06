@@ -1,4 +1,4 @@
-/* DVPE · Aldev — charte des fiches prospectives */
+/* DPE · Aldev — charte des fiches prospectives */
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap");
 
 :root {
@@ -136,9 +136,10 @@ p { margin: 0 0 10px; }
 .accueil-tete .marque small { font-size: 11px; }
 .accueil-tete h1 { font-size: clamp(38px, 6vw, 64px); color: var(--ardoise); }
 .accueil-tete p { color: var(--gris); margin: 10px 0 0; max-width: 62ch; font-size: 17px; }
-.portes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 36px; }
+.portes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 36px; }
 .porte { display: flex; flex-direction: column; gap: 10px; padding: 28px; text-decoration: none; color: var(--texte); border-left: 6px solid var(--c, var(--rouge)); }
 .porte + .porte { --c: var(--ardoise); }
+.porte:nth-child(3) { --c: #3E7C8C; }
 .porte:hover h2 { text-decoration: underline; }
 .porte h2 { font-size: 34px; text-transform: none; letter-spacing: 0; margin: 0; color: var(--ardoise); }
 .porte .chiffre { font: 700 64px/1 var(--titres); color: var(--c, var(--rouge)); }
