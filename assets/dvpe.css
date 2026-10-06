@@ -143,6 +143,7 @@ p { margin: 0 0 10px; }
 .porte:hover h2 { text-decoration: underline; }
 .porte h2 { font-size: 34px; text-transform: none; letter-spacing: 0; margin: 0; color: var(--ardoise); }
 .porte .chiffre { font: 700 64px/1 var(--titres); color: var(--c, var(--rouge)); }
+.porte .chiffre.petit { font-size: 34px; line-height: 64px; }
 .porte p { margin: 0; max-width: 46ch; }
 .porte .lien-sec { margin-top: auto; font-size: 13.5px; color: var(--gris); }
 .lien-sec a { color: var(--gris); }

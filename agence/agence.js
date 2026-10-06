@@ -113,7 +113,7 @@
     if (v === null) return `<div class="tuile vide"><div class="t-tete"><span class="t-titre">${esc(d.libelle_court)}</span>${code(ind)}</div>
       <div class="t-val">[non disponible]</div><div class="t-sous">${y}</div></div>`;
     const e = G.evol(ind, y), note = G.m.notes.get(`${ind}|${y}|`);
-    return `<div class="tuile" title="${esc(d.libelle)}">
+    return `<div class="tuile cliquable" data-detail="${ind}" role="button" tabindex="0" title="${esc(d.libelle)} : détail ${G.m.annees[0]}–${G.m.annees[G.m.annees.length - 1]}">
       <div class="t-tete"><span class="t-titre">${esc(d.libelle_court)}</span>${code(ind)}</div>
       <div class="t-val">${G.fmt(ind, v)}</div>
       <div class="t-evol" style="color:${e ? G.couleur(ind, e.v) : COUL.neutre}">${e ? `${fl(e.v)} ${G.fmtEvol(e)} vs ${G.prec(y)}` : "&nbsp;"}</div>
@@ -174,14 +174,14 @@
     // ventilations : regroupées par axe
     const axes = new Map();
     inds.forEach((i) => i.axes.split(",").filter(Boolean).forEach((ax) => { if (!axes.has(ax)) axes.set(ax, []); axes.get(ax).push(i.code); }));
-    let graph = dom.code === "ACC" ? `<div class="boite"><div class="boite-tete"><span>Du projet accompagné au projet décidé</span>${code("ACC01 → ACC02")}</div>${entonnoir(y)}</div>` : "";
+    let graph = dom.code === "ACC" ? `<div class="boite cliquable" data-detail="ACC01" role="button" tabindex="0"><div class="boite-tete"><span>Du projet accompagné au projet décidé</span>${code("ACC01 → ACC02")}</div>${entonnoir(y)}</div>` : "";
     for (const [ax, li] of axes) {
       const nMod = [...G.m.mod.values()].filter((x) => x.axe === ax).length;
       const avec = li.filter((i) => G.modalites(i, y, ax).length);
       if (!avec.length) continue;
       const titre = { nature: "Nature des projets", secteur: "Secteur d'activité", origine: "Origine géographique", filiere: "Projets par filière",
         cper: "Projets CPER par type", recette: "Composition des recettes", depense: "Composition des dépenses", budget: "Budgets publics gérés pour ALM" }[ax] || ax;
-      graph += `<div class="boite${nMod > 5 ? " large" : ""}"><div class="boite-tete"><span>${esc(titre)}</span>${code(li.join(", "))}</div>
+      graph += `<div class="boite cliquable${nMod > 5 ? " large" : ""}" data-detail="${li[0]}" data-axe="${ax}" role="button" tabindex="0"><div class="boite-tete"><span>${esc(titre)}</span>${code(li.join(", "))}</div>
         ${nMod > 5 ? barres(li[0], y, ax) : empile(ax === "recette" || ax === "depense" ? avec : li, y, ax)}</div>`;
     }
     // tableau des données de l'année (accessibilité + relief des couleurs à faible contraste)
@@ -195,6 +195,83 @@
       <div class="tuiles">${tuiles.join("")}</div>
       ${graph ? `<div class="graphes">${graph}</div>` : ""}
       ${table}</section>`;
+  };
+
+  /* ---------- Vue détaillée (clic sur une tuile ou un graphique) ---------- */
+  // Séries comparées : l'indicateur cliqué + ceux du même domaine qui partagent ses ventilations (ex. ACC01 et ACC02)
+  const jumeaux = (ind) => { const d = G.m.ind.get(ind);
+    return [...G.m.ind.values()].filter((i) => i.code === ind || (d.axes && i.domaine === d.domaine && i.axes === d.axes)).map((i) => i.code).sort(); };
+  const SERIE = ["#2B3A47", "#8A9AA5"];
+
+  function colonnes(inds, y) {   // colonnes groupées par année, valeurs affichées, année choisie soulignée
+    const ans = G.m.annees, W = 760, H = 250, g = 34, b = 22, h0 = H - 30, pl = 8;
+    const max = Math.max(...inds.flatMap((i) => ans.map((a) => G.val(i, a) ?? 0))) || 1;
+    const larg = (W - pl * 2) / ans.length, nb = inds.length, bw = Math.min(46, (larg - 18) / nb);
+    let svg = `<line x1="${pl}" y1="${h0}" x2="${W - pl}" y2="${h0}" stroke="#C9D3D8"/>`;
+    ans.forEach((a, k) => {
+      const x0 = pl + k * larg + (larg - bw * nb - 2 * (nb - 1)) / 2;
+      if (a === y) svg += `<rect x="${pl + k * larg + 2}" y="6" width="${larg - 4}" height="${h0 - 6}" fill="#F2F5F6" rx="4"/>`;
+      inds.forEach((i, j) => {
+        const v = G.val(i, a), x = x0 + j * (bw + 2);
+        if (v === null) { svg += `<rect x="${x}" y="${h0 - 30}" width="${bw}" height="30" fill="none" stroke="#8A9AA5" stroke-dasharray="3 3" rx="3"><title>${esc(G.m.ind.get(i).libelle_court)} ${a} : non disponible</title></rect>`; return; }
+        const hh = Math.max(1, (v / max) * (h0 - g)), lib = `${G.m.ind.get(i).libelle_court} ${a} : ${G.fmt(i, v)}`;
+        svg += `<rect x="${x}" y="${h0 - hh}" width="${bw}" height="${hh}" fill="${SERIE[j % 2]}" rx="3"><title>${esc(lib)}</title></rect>`;
+        svg += `<text x="${x + bw / 2}" y="${h0 - hh - 5}" text-anchor="middle" class="d-val">${G.fmt(i, v).replace(" K€", "").replace(" m²", "")}</text>`;
+      });
+      svg += `<text x="${pl + k * larg + larg / 2}" y="${H - 8}" text-anchor="middle" class="d-an${a === y ? " sel" : ""}">${a}</text>`;
+    });
+    const leg = inds.length > 1 ? `<div class="legendes">${inds.map((i, j) => `<span class="leg"><i style="background:${SERIE[j % 2]}"></i>${esc(G.m.ind.get(i).libelle_court)}</span>`).join("")}</div>` : "";
+    return `${leg}<svg viewBox="0 0 ${W} ${H}" class="d-svg" role="img" aria-label="Évolution ${ans[0]}–${ans[ans.length - 1]}">${svg}</svg>`;
+  }
+
+  function ventilAnnees(ind, axe, y) {   // une barre 100 % par année : la structure dans le temps
+    const mods = [...G.m.mod.values()].filter((x) => x.axe === axe).sort((a, b) => a.ordre - b.ordre);
+    const coul = Object.fromEntries(mods.map((x, i) => [x.code, CAT[i % CAT.length]]));
+    if (mods.length > 5) {   // beaucoup de modalités : tableau années × modalités, intensité par cellule
+      const ans = G.m.annees.filter((a) => G.modalites(ind, a, axe).length);
+      const max = Math.max(...ans.flatMap((a) => G.modalites(ind, a, axe).map((x) => x.v)));
+      const lignes = mods.filter((mo) => ans.some((a) => brut(ind, a, mo.code) !== null));
+      return `<table class="d-heat"><thead><tr><th></th>${ans.map((a) => `<th class="${a === y ? "sel" : ""}">${a}</th>`).join("")}</tr></thead><tbody>
+        ${lignes.map((mo) => `<tr><th>${esc(mo.libelle)}</th>${ans.map((a) => { const v = brut(ind, a, mo.code);
+          return v === null ? `<td class="nd">–</td>` : `<td style="background:rgba(29,95,138,${(0.08 + 0.6 * v / max).toFixed(2)});color:${v / max > 0.6 ? "#fff" : "inherit"}">${G.fmt(ind, v)}</td>`; }).join("")}</tr>`).join("")}</tbody></table>`;
+    }
+    const rows = G.m.annees.map((a) => {
+      const ms = G.modalites(ind, a, axe), tot = ms.reduce((s2, x) => s2 + x.v, 0);
+      if (!tot) return `<span class="d-an2${a === y ? " sel" : ""}">${a}</span><span class="emp-vide">non disponible</span>`;
+      return `<span class="d-an2${a === y ? " sel" : ""}">${a}</span><div class="emp">${mods.map((mo) => { const x = ms.find((z) => z.code === mo.code); if (!x || !x.v) return "";
+        const pc = (x.v / tot) * 100; return `<span class="seg" style="flex:${x.v};background:${coul[mo.code]}" title="${esc(mo.libelle)} ${a} : ${G.fmt(ind, x.v)} (${G.nb(pc, 0)} %)">${pc >= 12 ? `${G.nb(pc, 0)} %` : ""}</span>`; }).join("")}</div>`;
+    }).join("");
+    return `<div class="d-ventil">${rows}</div><div class="legendes">${mods.map((mo) => `<span class="leg"><i style="background:${coul[mo.code]}"></i>${esc(mo.libelle)}</span>`).join("")}</div>`;
+  }
+
+  G.detail = function (ind, y, axeFocus) {
+    const d = G.m.ind.get(ind), inds = jumeaux(ind), ans = G.m.annees;
+    const axes = d.axes.split(",").filter(Boolean);
+    const ax = axes.includes(axeFocus) ? axeFocus : axes[0];
+    const titresAxe = { nature: "Nature", secteur: "Secteur", origine: "Origine", filiere: "Filière", cper: "Type de projet CPER", recette: "Recettes", depense: "Dépenses", budget: "Budget" };
+    // tableau complet : séries × années (+ ventilations)
+    const lignesT = inds.flatMap((i) => [[G.m.ind.get(i).libelle_court, "", i, ""],
+      ...[...G.m.mod.values()].filter((mo) => ans.some((a) => brut(i, a, mo.code) !== null)).map((mo) => ["", mo.libelle, i, mo.code])]);
+    const table = `<details class="donnees"><summary>Tableau ${ans[0]}–${ans[ans.length - 1]}</summary><div class="d-scroll"><table><thead><tr><th>Indicateur</th><th>Ventilation</th>${ans.map((a) => `<th class="n">${a}</th>`).join("")}</tr></thead><tbody>
+      ${lignesT.map(([l, m2, i, mo]) => `<tr${mo ? "" : ' class="tot"'}><td>${esc(l)}</td><td>${esc(m2)}</td>${ans.map((a) => { const v = mo ? brut(i, a, mo) : G.val(i, a); return `<td class="n">${v === null ? "–" : G.fmt(i, v)}</td>`; }).join("")}</tr>`).join("")}</tbody></table></div></details>`;
+    // évolution moyenne sur la période disponible
+    const pts = ans.map((a) => ({ a, v: G.val(ind, a) })).filter((p) => p.v !== null);
+    let synthese = "";
+    if (pts.length >= 2) {
+      const p0 = pts[0], p1 = pts[pts.length - 1], hi = pts.reduce((m, p) => (p.v > m.v ? p : m)), lo = pts.reduce((m, p) => (p.v < m.v ? p : m));
+      const ev = d.unite === "%" ? `${p1.v - p0.v >= 0 ? "+" : "−"}${G.nb(Math.abs(p1.v - p0.v), 1)} pt` : `${p1.v - p0.v >= 0 ? "+" : "−"}${G.nb(Math.abs((p1.v - p0.v) / p0.v) * 100, 1)} %`;
+      synthese = `${inds.length > 1 ? esc(d.libelle_court) + " : d" : "D"}e ${p0.a} à ${p1.a} : ${G.fmt(ind, p0.v)} → ${G.fmt(ind, p1.v)} (${ev}). Maximum en ${hi.a} (${G.fmt(ind, hi.v)}), minimum en ${lo.a} (${G.fmt(ind, lo.v)}).`;
+    }
+    return `<div class="d-tete"><div><div class="kicker">${esc(G.m.dom.find((x) => x.code === d.domaine)?.libelle || "")} · détail ${ans[0]}–${ans[ans.length - 1]}</div>
+        <h2>${esc(inds.length > 1 ? inds.map((i) => G.m.ind.get(i).libelle_court).join(" et ") : d.libelle)}</h2></div>
+        <div class="d-codes">${inds.map(code).join(" ")}<button type="button" class="d-fermer" aria-label="Fermer">×</button></div></div>
+      <p class="lecture">${synthese}${d.calcul ? ` Taux recalculé (${esc(d.calcul)}) quand les composantes existent.` : ""}</p>
+      <div class="boite">${colonnes(inds, y)}</div>
+      ${ax ? `<div class="boite"><div class="boite-tete"><span>Répartition par ${esc((titresAxe[ax] || ax).toLowerCase())} · ${esc(d.libelle_court)}</span>
+        <span class="d-onglets" role="tablist">${axes.length > 1 ? axes.map((a2) => `<button type="button" role="tab" data-axe="${a2}" aria-selected="${a2 === ax}">${esc(titresAxe[a2] || a2)}</button>`).join("") : ""}
+        ${inds.length > 1 ? (axes.length > 1 ? '<span class="d-sep"></span>' : "") + inds.map((i) => `<button type="button" role="tab" data-ind="${i}" aria-selected="${i === ind}">${esc(G.m.ind.get(i).libelle_court)}</button>`).join("") : ""}</span></div>
+        ${ventilAnnees(ind, ax, y)}</div>` : ""}
+      ${table}`;
   };
 
   /* ---------- En bref (règles) ---------- */

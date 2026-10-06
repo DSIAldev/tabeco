@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TB03 · Indicateurs d'agence · DPE Aldev</title>
+<title>Rapport d'activité · Indicateurs d'agence · DPE Aldev</title>
 <link rel="stylesheet" href="../barometre/style.css">
 <link rel="stylesheet" href="agence.css">
 </head>
 <body>
-<nav class="nav"><a href="../index.html">Accueil DPE</a><a href="../barometre/TB01.html">TB01 Baromètre</a><a href="../barometre/TB02.html">TB02 Chômage</a><a href="indicateurs.html" aria-current="page">TB03 Agence</a><span class="info" id="info"></span></nav>
+<nav class="nav"><a href="../index.html">Accueil DPE</a><a href="../barometre/TB01.html">TB01 Baromètre</a><a href="../barometre/TB02.html">TB02 Chômage</a><a href="indicateurs.html" aria-current="page">Rapport d'activité</a><span class="info" id="info"></span></nav>
 <!-- data-statut : « MAQUETTE » tant que les données ne sont pas validées ; vider pour retirer la mention -->
+<dialog class="detail" id="detail" aria-label="Détail de l'indicateur"><div id="detail-corps"></div></dialog>
 <main class="ag" id="ag" data-statut="MAQUETTE" aria-live="polite"></main>
 <script src="agence.js"></script>
 <script>
@@ -27,18 +28,31 @@
           <div><div class="kicker">Aldev · Direction de la Prospective économique</div>
             <h1>Indicateurs d'agence ${y}</h1>
             <div class="st">Activité de l'agence sur le territoire d'Angers Loire Métropole</div></div>
-          <div class="droite">${statut ? `<div class="statut">${G.esc(statut)}</div>` : ""}<div class="tb">TB03</div></div>
+          <div class="droite">${statut ? `<div class="statut">${G.esc(statut)}</div>` : ""}<div class="tb">RAPPORT D'ACTIVITÉ</div></div>
         </div>
         <div class="annees" role="group" aria-label="Année affichée"><span>Année</span>${m.annees.map((a) => `<button type="button" data-a="${a}" aria-pressed="${a === y}">${a}</button>`).join("")}</div>
       </div>
       <div class="bref"><strong>En bref ${y}.</strong> ${G.bref(y)}</div>
       <nav class="sommaire" aria-label="Domaines">${m.dom.map((d) => `<a href="#${d.code}" data-ancre>${G.esc(d.libelle)}</a>`).join("")}</nav>
       ${sections.join("")}
-      <div class="pied">Source : ${G.esc(m.source || "")}. Évolutions calculées par rapport à l'année précédente disponible ; ▲▼ en bleu si favorable, en orange si défavorable, gris si neutre. Taux marqués « calculé » : recalculés depuis leurs composantes. Codes : ACC, FIN, EMA… = indicateur, TB03 = tableau.</div>`;
+      <div class="pied">Source : ${G.esc(m.source || "")}. Évolutions calculées par rapport à l'année précédente disponible ; ▲▼ en bleu si favorable, en orange si défavorable, gris si neutre. Taux marqués « calculé » : recalculés depuis leurs composantes. Codes : ACC, FIN, EMA… = indicateur. Cliquer sur une tuile ou un graphique pour le détail pluriannuel.</div>`;
     el.querySelectorAll(".annees button").forEach((b) => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.a); rendre(b.dataset.a); }));
     el.querySelectorAll("[data-ancre]").forEach((a) => a.addEventListener("click", (ev) => { ev.preventDefault(); document.getElementById(a.getAttribute("href").slice(1)).scrollIntoView({ behavior: "smooth" }); }));
-    document.title = `TB03 · Indicateurs d'agence ${y} · DPE Aldev`;
+    document.title = `Rapport d'activité ${y} · Indicateurs d'agence · DPE Aldev`;
   }
+  // Vue détaillée : clic ou Entrée sur une tuile / un graphique ; onglets d'axe et de série dans la fenêtre
+  const dlg = document.getElementById("detail"), corps = document.getElementById("detail-corps");
+  let etat = null;
+  const ouvrir = (ind, axe) => { etat = { ind, axe }; corps.innerHTML = G.detail(ind, lireAnnee(), axe); if (!dlg.open) dlg.showModal(); };
+  const declencheur = (ev) => { const c = ev.target.closest("[data-detail]"); if (!c || ev.target.closest("details")) return; ouvrir(c.dataset.detail, c.dataset.axe); };
+  el.addEventListener("click", declencheur);
+  el.addEventListener("keydown", (ev) => { if ((ev.key === "Enter" || ev.key === " ") && ev.target.matches("[data-detail]")) { ev.preventDefault(); declencheur(ev); } });
+  corps.addEventListener("click", (ev) => {
+    if (ev.target.closest(".d-fermer")) return dlg.close();
+    const b = ev.target.closest(".d-onglets button"); if (!b) return;
+    ouvrir(b.dataset.ind || etat.ind, b.dataset.axe || etat.axe);
+  });
+  dlg.addEventListener("click", (ev) => { if (ev.target === dlg) dlg.close(); });   // clic hors de la fenêtre
   rendre(lireAnnee());
   window.addEventListener("hashchange", () => { if (m.annees.includes(location.hash.slice(1))) rendre(lireAnnee()); });
   document.getElementById("info").textContent = G.modeSecours ? "Données : data.js (secours)" : "Données : CSV";

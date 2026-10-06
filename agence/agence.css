@@ -55,3 +55,29 @@ body { background: #F6F8F9; }
   body { background: #fff; } .annees, .sommaire, .nav, .donnees { display: none; }
   .ag { padding: 0; max-width: none; } .domaine { break-inside: avoid; padding: 8px 0; }
 }
+
+/* Cliquable → vue détaillée */
+.cliquable { cursor: pointer; transition: box-shadow .15s, border-color .15s; }
+.cliquable:hover, .cliquable:focus-visible { box-shadow: 0 0 0 2px var(--bandeau); outline: none; }
+.tuile.cliquable:hover .code, .boite.cliquable:hover .code { background: var(--bandeau); color: #fff; }
+dialog.detail { width: min(960px, calc(100vw - 24px)); max-height: calc(100vh - 32px); border: 0; border-radius: 8px; padding: 20px 22px; box-shadow: 0 10px 40px rgba(31,42,51,.35); font-family: inherit; color: var(--texte); }
+dialog.detail::backdrop { background: rgba(31,42,51,.55); }
+dialog.detail > div { display: flex; flex-direction: column; gap: 12px; }
+.d-tete { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; border-bottom: 4px solid var(--accent); padding-bottom: 8px; }
+.d-tete h2 { margin: 4px 0 0; font-size: 22px; font-weight: 800; }
+.d-codes { display: flex; gap: 6px; align-items: center; }
+.d-fermer { font-family: inherit; font-size: 20px; font-weight: 700; line-height: 1; border: 1px solid var(--bord); background: #fff; border-radius: 4px; width: 34px; height: 34px; cursor: pointer; margin-left: 6px; }
+.d-svg { width: 100%; height: auto; }
+.d-val { font-size: 11.5px; font-weight: 700; fill: var(--texte); font-variant-numeric: tabular-nums; }
+.d-an { font-size: 12px; fill: var(--sec); } .d-an.sel { font-weight: 800; fill: var(--texte); }
+.d-ventil { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 6px 10px; align-items: center; }
+.d-an2 { font-size: 12px; color: var(--sec); font-variant-numeric: tabular-nums; } .d-an2.sel { font-weight: 800; color: var(--texte); }
+.d-onglets { display: flex; flex-wrap: wrap; gap: 4px; text-transform: none; letter-spacing: 0; }
+.d-onglets button { font-family: inherit; font-size: 11.5px; font-weight: 600; border: 1px solid var(--bord); background: #fff; border-radius: 4px; padding: 3px 8px; cursor: pointer; }
+.d-onglets button[aria-selected="true"] { background: var(--bandeau); color: #fff; border-color: var(--bandeau); }
+.d-heat { border-collapse: collapse; width: 100%; font-size: 12px; font-variant-numeric: tabular-nums; }
+.d-heat th, .d-heat td { padding: 4px 6px; border-bottom: 1px solid #fff; text-align: right; } .d-heat tbody th { text-align: left; font-weight: 600; }
+.d-heat thead th.sel { color: var(--accent); } .d-heat .nd { color: #A0ABB3; }
+.d-scroll { overflow-x: auto; } .donnees tr.tot td { font-weight: 700; }
+.d-sep { width: 1px; background: var(--bord); margin: 0 4px; }
+@media (max-width: 640px) { .d-tete h2 { font-size: 17px; } dialog.detail { padding: 14px; } }
