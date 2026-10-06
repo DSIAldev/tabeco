@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TB01 · Baromètre économique · DVPE Aldev</title>
+<link rel="stylesheet" href="style.css">
+<style>@page { size: A4 portrait; margin: 0 }</style>
+</head>
+<body>
+<nav class="nav"><a href="../index.html">Accueil DVPE</a><a href="TB01.html" aria-current="page">TB01 Baromètre</a><a href="TB02.html">TB02 Chômage</a><span class="info" id="info"></span></nav>
+<!-- data-statut : « MAQUETTE » tant que les données ne sont pas validées ; vider l'attribut pour retirer la mention -->
+<div class="cadre"><div class="page portrait" id="page" data-tableau="TB01" data-statut="MAQUETTE"></div></div>
+<script src="app.js"></script>
+<script>
+(async function () {
+  const page = document.getElementById("page"), A = BARO;
+  try { await A.charger(); } catch (e) { return A.erreur(page, e); }
+  const m = A.m, ZE = "ZE5202", FR = "FR";
+  const tb = m.bloc.get("TB01"), k1 = m.bloc.get("TB01-K1"), g1 = m.bloc.get("TB01-G1"), k2 = m.bloc.get("TB01-K2");
+
+  /* --- TB01-K1 : tuiles marché du travail --- */
+  const tuiles = [], mouvements = [];
+  for (const ind of A.indDuBloc(k1)) {
+    const def = m.ind.get(ind), terr = A.territoireAvecDonnee(ind, A.terrDuBloc(k1));
+    const niv = terr && A.niveau(ind, terr);
+    if (!niv) { tuiles.push(A.tuile({ code: ind, titre: def.libelle_court, vide: true, sous: `${def.source} · ${A.maille(ind)}` })); continue; }
+    const ev = A.evolutions(ind, terr);
+    const princ = ev.an ? ["an", "sur un an"] : ev.trim ? ["trim", "sur le trimestre"] : null;
+    const second = princ && princ[0] === "an" && ev.trim ? `${A.fmtEvol(ev.trim)} sur le trimestre` : null;
+    const ligne = princ ? `${A.fleche(ev[princ[0]].v)} ${A.fmtEvol(ev[princ[0]])} ${princ[1]}`
+                        : (niv.mes === "stock" ? `Stock ${A.perLib(niv.p, niv.mes).toLowerCase()}` : "");
+    const sous = [princ ? A.perLib(niv.p, niv.mes) : null, second, A.maille(ind), niv.source].filter(Boolean).join(" · ");
+    tuiles.push(A.tuile({ code: ind, titre: def.libelle_court, valeur: A.fmtNiveau(ind, niv.v), ligne,
+      couleur: princ ? A.couleur(ind, ev[princ[0]].v) : null, sous }));
+    if (princ && ind !== "EMP01") {
+      const e = ev[princ[0]], rel = e.type === "pct" ? e.v : (e.v / niv.v) * 100;
+      mouvements.push({ ind, def, niv, e, rel });
+    }
+  }
+
+  /* --- En bref : règles --- */
+  const chom = A.dernier("EMP01", ZE), evC = A.evolutions("EMP01", ZE).an;
+  let bref = "";
+  if (chom && evC) {
+    const verbe = evC.v > 0.05 ? "remonte" : evC.v < -0.05 ? "recule" : "est stable";
+    const ecart = chom.v - (A.a("EMP01", FR, "valeur", chom.p) ?? NaN);
+    const pos = isNaN(ecart) ? "" : Math.abs(ecart) < 0.05 ? ", au niveau de la France" : ecart > 0 ? `, ${A.pts(ecart).slice(1)} au-dessus de la France` : `, ${A.pts(-ecart).slice(1)} sous la France`;
+    bref += `Le chômage ${verbe} : ${A.fmtNiveau("EMP01", chom.v)} au ${A.perLib(chom.p)} (${A.fmtEvol(evC)} sur un an)${pos}. `;
+  }
+  const forts = mouvements.filter((x) => Math.abs(x.rel) >= 0.5).sort((a, b) => Math.abs(b.rel) - Math.abs(a.rel)).slice(0, 2);
+  const stables = mouvements.filter((x) => Math.abs(x.rel) < 0.5);
+  if (forts.length) bref += `Plus forts mouvements sur un an : ${forts.map((x) => `${A.min1(x.def.libelle_court)} ${A.fmtEvol(x.e)}${Math.abs(x.rel) >= 10 ? " (net " + (x.rel < 0 ? "recul" : "rebond") + ")" : ""}`).join(", ")}. `;
+  if (stables.length) bref += `Quasi stable : ${stables.map((x) => `${A.min1(x.def.libelle_court)} (${A.fmtNiveau(x.ind, x.niv.v)}, ${A.fmtEvol(x.e)})`).join(", ")}.`;
+
+  /* --- TB01-G1 : courbe --- */
+  const [debut] = g1.periode.split("..");
+  const terrsG1 = A.terrDuBloc(g1), sG1 = A.serie("EMP01", terrsG1[0]).filter((r) => r.p >= debut);
+  const courbe = A.courbe({ ind: "EMP01", terrs: terrsG1, debut, aria: "Taux de chômage, zone d'emploi d'Angers et France" });
+  const leg = A.legende(terrsG1.map((t) => ({ nom: t === ZE ? "ZE Angers" : A.lib(t), couleur: A.SERIES[t] })));
+
+  /* --- TB01-K2 : à activer + calcul EMP08 --- */
+  const k2t = A.indDuBloc(k2).map((ind) => {
+    const def = m.ind.get(ind);
+    if (ind === "EMP08") { // EMP08 = EMP03 cumul_12m / EMP04 valeur, même période
+      const terr = "EPCI244900015", num = A.serie("EMP03", terr, "cumul_12m");
+      const pts = num.map((r) => ({ p: r.p, v: r.v / A.a("EMP04", terr, "valeur", r.p) })).filter((r) => isFinite(r.v));
+      const d = pts[pts.length - 1];
+      return d ? A.tuile({ code: ind, titre: `${def.libelle_court} · calcul`, valeur: A.fmtNiveau(ind, d.v), petite: true,
+        sous: `${def.libelle.split(" : ")[1] || def.libelle} · ${A.perLib(d.p)}` })
+        : A.tuile({ code: ind, titre: def.libelle_court, vide: true, petite: true, sous: def.source });
+    }
+    const terr = A.territoireAvecDonnee(ind, [...m.terr.keys()]), niv = terr && A.niveau(ind, terr);
+    return niv ? A.tuile({ code: ind, titre: def.libelle_court, valeur: A.fmtNiveau(ind, niv.v), petite: true, sous: `${A.perLib(niv.p, niv.mes)} · ${def.source}` })
+               : A.tuile({ code: ind, titre: def.libelle_court, vide: true, petite: true, sous: `${def.source} · ${def.frequence} · ${A.maille(ind)}` });
+  });
+
+  /* --- Sources (depuis les données) --- */
+  const grp = new Map(); // sources regroupées par producteur et millésime
+  for (const i of A.indDuBloc(k1)) { const t = A.territoireAvecDonnee(i, A.terrDuBloc(k1)), n = t && A.niveau(i, t); if (!n) continue;
+    const cle = `${n.source}|${n.millesime}`; if (!grp.has(cle)) grp.set(cle, { s: n.source, mil: n.millesime, l: [] });
+    grp.get(cle).l.push(`${A.min1(m.ind.get(i).libelle_court)} ${A.min1(A.perLib(n.p, n.mes))}`); }
+  const srcs = [...grp.values()].map((g) => `${g.s} (${g.l.join(", ")} ; ${/^\d{4}-\d{2}-\d{2}$/.test(g.mil) ? "import du " + A.dateFr(g.mil) : g.mil})`);
+
+  const edition = new Date().toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+  const statut = page.dataset.statut;
+  page.innerHTML = `
+    <div class="entete">
+      <div><div class="kicker">Aldev · Direction Veille et Prospective Économiques</div>
+        <h1>Baromètre économique</h1><div class="st">${A.esc(A.lib("EPCI244900015"))} · édition ${edition}</div></div>
+      <div class="droite">${statut ? `<div class="statut">${A.esc(statut)}</div>` : ""}<div class="tb">${tb.code}</div></div>
+    </div>
+    <div class="bref"><strong>En bref.</strong> ${bref}</div>
+    <div class="rubrique">Marché du travail</div>
+    <div class="grille g3">${tuiles.join("")}</div>
+    <div class="boite">
+      <div class="boite-tete"><span>Taux de chômage · ZE Angers et France · ${A.perLib(sG1[0].p)} → ${A.perLib(sG1[sG1.length - 1].p)}</span>${A.code(g1.code)}</div>
+      ${courbe}
+      <div class="legendes">${leg}</div>
+      <div class="lecture">${A.lectureSerie("EMP01", ZE, debut)}</div>
+    </div>
+    <div class="rubrique">À activer ${A.code(k2.code)}</div>
+    <div class="grille g4">${k2t.join("")}</div>
+    <div class="pied">Sources : ${srcs.join(" ; ")}. Codes : EMP/ENT = indicateur, TB = tableau.</div>`;
+  document.getElementById("info").textContent = A.modeSecours ? "Données : data.js (secours)" : "Données : CSV";
+  A.ajuster(page);
+})();
+</script>
+</body>
+</html>

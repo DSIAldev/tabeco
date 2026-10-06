@@ -1,0 +1,11 @@
+code;libelle;libelle_court;unite;source;maille;frequence;sens_favorable;statut
+EMP01;Taux de chômage localisé;Taux de chômage;%;INSEE;ZE;trimestrielle;baisse;socle
+EMP02;Emploi salarié privé;Emploi salarié privé;emplois;Urssaf;ZE;trimestrielle;hausse;socle
+EMP03;Offres d'emploi enregistrées France Travail (cumul 12 mois);Offres d'emploi (12 mois);offres;France Travail;EPCI;trimestrielle;hausse;socle
+EMP04;Demandeurs d'emploi catégorie A;Demandeurs cat. A;personnes;France Travail;EPCI;trimestrielle;baisse;socle
+EMP05;Demandeurs d'emploi catégories A, B, C;Demandeurs cat. A, B, C;personnes;France Travail;EPCI;trimestrielle;baisse;socle
+EMP06;Offres en ligne sur angers-emploi.fr;Offres angers-emploi.fr;offres;Aldev;EPCI;mensuelle;neutre;socle
+EMP07;Intérim en équivalent temps plein;Intérim (ETP);ETP;DARES;departement;trimestrielle;hausse;a_activer
+EMP08;Tension : offres 12 mois / demandeurs cat. A;Tension;ratio;calcul EMP03/EMP04;EPCI;trimestrielle;hausse;calcul
+ENT01;Créations d'entreprises;Créations;entreprises;INSEE ou Infogreffe;EPCI;mensuelle;hausse;a_activer
+ENT02;Défaillances (ouvertures de procédures collectives);Défaillances;entreprises;BODACC ou Infogreffe;EPCI;mensuelle;baisse;a_activer

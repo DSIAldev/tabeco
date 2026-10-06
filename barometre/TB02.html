@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TB02 · Chômage : parangonnage · DVPE Aldev</title>
+<link rel="stylesheet" href="style.css">
+<style>@page { size: A4 landscape; margin: 0 }</style>
+</head>
+<body>
+<nav class="nav"><a href="../index.html">Accueil DVPE</a><a href="TB01.html">TB01 Baromètre</a><a href="TB02.html" aria-current="page">TB02 Chômage</a><span class="info" id="info"></span></nav>
+<div class="cadre"><div class="page paysage" id="page" data-tableau="TB02" data-statut="MAQUETTE"></div></div>
+<script src="app.js"></script>
+<script>
+(async function () {
+  const page = document.getElementById("page"), A = BARO;
+  try { await A.charger(); } catch (e) { return A.erreur(page, e); }
+  const m = A.m, I = "EMP01", ZE = "ZE5202";
+  const tb = m.bloc.get("TB02"), k1 = m.bloc.get("TB02-K1"), g1 = m.bloc.get("TB02-G1"), t1 = m.bloc.get("TB02-T1");
+  const d = A.dernier(I, ZE), p = d.p;
+  const val = (t) => A.a(I, t, "valeur", p);
+  const an = (t) => A.ecartSerie(I, t, 4, p);
+
+  /* --- TB02-K1 --- */
+  const fr = val("FR"), d49 = val("D49");
+  const panel = [...m.terr.values()].filter((t) => t.panel_national === "oui" && val(t.code) !== null);
+  const rang = 1 + panel.filter((t) => val(t.code) < d.v).length;          // EMP01-R : 1 = taux le plus bas
+  const evZE = an(ZE), evFR = an("FR");
+  const k = [
+    A.tuile({ code: I, titre: "ZE Angers", valeur: A.fmtNiveau(I, d.v), ligne: `${A.fleche(evZE)} ${A.pts(evZE)} sur un an`, couleur: A.couleur(I, evZE), sous: `${A.perLib(p)} · ${m.ind.get(I).source}` }),
+    A.tuile({ code: I + "-F", titre: "Écart avec la France", valeur: A.pts(d.v - fr), discret: true,
+      ligne: `France ${A.fmtNiveau(I, fr)}${evFR !== null ? ` · ${A.pts(evFR)} sur un an` : ""}` }),
+    A.tuile({ code: I + "-D", titre: "Écart avec le 49", valeur: A.pts(d.v - d49), discret: true, ligne: `${A.lib("D49")} ${A.fmtNiveau(I, d49)}` }),
+    A.tuile({ code: I + "-R", titre: "Rang national", valeur: `${rang}<sup>e</sup> / ${panel.length}`, discret: true, ligne: "panel villes de référence (1 = plus bas)" })
+  ];
+
+  /* --- TB02-G1 --- */
+  const [debut] = g1.periode.split("..");
+  const terrs = A.terrDuBloc(g1);
+  const courbe = A.courbe({ ind: I, terrs, debut, annoter: ZE, H: 430, aria: "Taux de chômage : zone d'emploi d'Angers, France, Maine-et-Loire, Pays de la Loire" });
+  const leg = A.legende(terrs.map((t) => ({ nom: t === ZE ? "ZE Angers" : A.lib(t), couleur: A.SERIES[t] })));
+
+  /* --- TB02-T1 : classement ZE de la région --- */
+  const zes = [...m.terr.values()].filter((t) => t.region_pdl === "oui" && t.type === "ze" && val(t.code) !== null)
+    .map((t) => ({ c: t.code, nom: t.libelle, v: val(t.code), e: an(t.code) })).sort((a, b) => b.v - a.v || a.nom.localeCompare(b.nom));
+  const max = Math.max(...zes.map((z) => z.v));
+  const lignes = zes.map((z) => { const moi = z.c === ZE ? " moi" : "";
+    return `<span class="${moi}">${A.esc(z.nom)}</span><span class="barre${moi}" style="width:${(z.v / max * 100).toFixed(0)}%"></span><span class="n${moi}">${A.nb(z.v, 1)}</span><span class="e${moi}">${z.e === null ? "" : A.signe(z.e, 1)}</span>`; }).join("");
+  const nH = zes.filter((z) => z.e > 0).length, nB = zes.filter((z) => z.e < 0).length;
+  const tendance = nH === zes.length ? "Hausse générale" : nB === zes.length ? "Baisse générale" : `Évolutions contrastées (${nH} en hausse, ${nB} en baisse)`;
+  const pos = zes.findIndex((z) => z.c === ZE) + 1, bas = zes[zes.length - 1];
+  const lectT1 = `${tendance} sur un an. Angers : ${pos}<sup>${pos === 1 ? "er" : "e"}</sup> taux le plus élevé sur ${zes.length}, ${A.pts(d.v - bas.v).replace("+", "")} au-dessus de ${A.esc(bas.nom)}.`;
+
+  const mill = d.millesime;
+  const statut = page.dataset.statut;
+  page.innerHTML = `
+    <div class="entete">
+      <div><div class="kicker">Tableau de bord · Chômage · ${A.perOrdinal(p)}</div><h1>Où se situe la zone d'emploi d'Angers ?</h1></div>
+      <div class="droite">${statut ? `<div class="statut">${A.esc(statut)}</div>` : ""}<div class="tb">${tb.code}</div></div>
+    </div>
+    <div class="grille g4" style="gap:10px">${k.join("")}</div>
+    <div class="corps2">
+      <div class="boite">
+        <div class="legendes">${leg}<span style="margin-left:auto">${A.code(g1.code)}</span></div>
+        ${courbe}
+        <div class="lecture">${A.lectureSerie(I, ZE, debut)}</div>
+      </div>
+      <div class="boite">
+        <div class="boite-tete"><span>Zones d'emploi · ${A.esc(A.lib("R52"))}</span>${A.code(t1.code)}</div>
+        <div class="classement"><span></span><span></span><span class="h">${A.perCourt(p)}</span><span class="h">1 an</span>${lignes}</div>
+        <div class="lecture bas">${lectT1}</div>
+      </div>
+    </div>
+    <div class="pied">Source : ${A.esc(m.ind.get(I).source)}, ${A.esc(m.ind.get(I).libelle.toLowerCase())}, moyenne trimestrielle, données révisées (import du ${A.dateFr(mill)}). Panel national : ${panel.length} zones d'emploi de la liste villes de référence.</div>`;
+  document.getElementById("info").textContent = A.modeSecours ? "Données : data.js (secours)" : "Données : CSV";
+  A.ajuster(page);
+})();
+</script>
+</body>
+</html>

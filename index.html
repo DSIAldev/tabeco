@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DVPE · Direction Veille et Prospective Économiques · Aldev</title>
+<meta name="description" content="Indicateurs économiques et études prospectives d'Aldev pour Angers Loire Métropole.">
+<link rel="stylesheet" href="assets/dvpe.css">
+</head>
+<body>
+<main class="accueil">
+  <header class="accueil-tete">
+    <a class="marque" href="index.html" aria-label="Accueil"><span>aldev</span><small>Angers Loire Développement</small></a>
+    <div>
+      <h1>Direction Veille et Prospective Économiques</h1>
+      <p>Mesurer l'économie d'Angers Loire Métropole aujourd'hui, et explorer les futurs possibles du territoire pour préparer les décisions de demain.</p>
+    </div>
+  </header>
+
+  <div class="portes">
+    <a class="porte" href="barometre.html">
+      <span class="chiffre">Oct. 2026</span>
+      <h2>Baromètre économique</h2>
+      <p>Marché du travail, emploi salarié, entreprises : les indicateurs clés du territoire, édition octobre 2026.</p>
+    </a>
+    <a class="porte" href="prospectives.html">
+      <span class="chiffre" id="nb-fiches">6</span>
+      <h2>Prospectives</h2>
+      <p id="desc-fiches">Covid-19, mobilité, cloud, cybersécurité, intelligence artificielle, horticulture : chaque étude, ses scénarios et leur confrontation au réel.</p>
+    </a>
+  </div>
+
+  <p class="accueil-pied">DVPE · Aldev, 2026.</p>
+</main>
+<script src="assets/dvpe.js"></script>
+<script src="data/prospectives.js"></script>
+<script>
+  // Compteur alimenté par le catalogue
+  Promise.all(DVPE.liste.map(n => DVPE.charger(DVPE.fichier(n)))).then(() => {
+    const f = Object.values(DVPE.fiches), enCours = f.filter(x => x.statut === "en cours").length;
+    document.getElementById("nb-fiches").textContent = f.length;
+    if (enCours) document.getElementById("desc-fiches").textContent += ` ${enCours} étude en cours.`;
+  }).catch(() => {});
+</script>
+</body>
+</html>

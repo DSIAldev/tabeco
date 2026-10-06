@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prospectives · DVPE Aldev</title>
+<link rel="stylesheet" href="assets/dvpe.css">
+</head>
+<body>
+<nav class="barre-nav"><a href="index.html">Accueil DVPE</a><a href="barometre.html">Baromètre</a><a href="prospectives.html" aria-current="page">Prospectives</a></nav>
+<main class="accueil">
+  <header class="accueil-tete">
+    <a class="marque" href="index.html" aria-label="Accueil"><span>aldev</span><small>Angers Loire Développement</small></a>
+    <div>
+      <h1>Prospectives</h1>
+      <p>Une question pour le territoire, trois scénarios, puis le test du réel. Chaque fiche suit la même structure.</p>
+    </div>
+  </header>
+  <div class="frise" id="frise" aria-label="Calendrier des études"></div>
+  <ol class="cat" id="cat"></ol>
+</main>
+<script src="assets/dvpe.js"></script>
+<script src="data/prospectives.js"></script>
+<script>
+  const esc = DVPE.txt;
+  const mois = s => { const [a, m] = s.split("-").map(Number); return a * 12 + (m - 1); };
+  const now = new Date(), auj = now.getFullYear() * 12 + now.getMonth();
+
+  Promise.all(DVPE.liste.map(n => DVPE.charger(DVPE.fichier(n)))).then(() => {
+    const fs = DVPE.liste.map(n => DVPE.fiches[n]).filter(Boolean);
+    // Frise chronologique
+    const a0 = Math.min(...fs.map(f => +f.debut.slice(0, 4))), a1 = now.getFullYear() + 1;
+    const d0 = a0 * 12, span = (a1 - a0) * 12, pc = m => ((m - d0) / span * 100).toFixed(2) + "%";
+    const ans = []; for (let a = a0; a < a1; a++) ans.push(a);
+    let h = `<div class="frise-grille"><div class="frise-annees" style="grid-template-columns:repeat(${ans.length},1fr)">${ans.map(a => `<span>${a}</span>`).join("")}</div>`;
+    h += fs.map(f => {
+      const d = mois(f.debut), fin = f.fin ? mois(f.fin) + 1 : auj;
+      const court = f.court || f.titre;
+      return `<div class="frise-ligne"><a class="${f.fin ? "" : "en-cours"}" href="fiche.html?n=${f.id}" style="left:${pc(d)};width:calc(${pc(fin)} - ${pc(d)})" title="${f.titre}">${f.id}</a>
+        <span class="lib" style="${(fin - d0) / span > .7 ? `right:calc(100% - ${pc(d)} + 8px)` : `left:calc(${pc(fin)} + 8px)`}">${court}</span></div>`;
+    }).join("");
+    h += `<span class="aujourdhui" style="left:${pc(auj)}" title="Aujourd'hui"></span></div>`;
+    document.getElementById("frise").innerHTML = h;
+    // Catalogue
+    document.getElementById("cat").innerHTML = fs.map(f => `<li>
+      <span class="num">${f.id}</span>
+      <div><h2><a href="fiche.html?n=${f.id}">${esc(f.titre)}</a></h2><p>${esc(f.sousTitre)}</p></div>
+      <div class="per"><strong>${esc(f.periode)}</strong>${esc(f.meta[0])}</div></li>`).join("");
+  }).catch(e => DVPE.erreur(document.getElementById("cat"), e));
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiche prospective · DVPE Aldev</title>
+<link rel="stylesheet" href="assets/dvpe.css">
+</head>
+<body>
+<nav class="barre-nav"><a href="index.html">Accueil DVPE</a><a href="barometre.html">Baromètre</a><a href="prospectives.html">Prospectives</a></nav>
+<main class="fiche" id="fiche" aria-live="polite"></main>
+<script src="assets/dvpe.js"></script>
+<script src="data/prospectives.js"></script>
+<script>
+  // fiche.html?n=3 → data/fiches/fiche-03.js
+  const el = document.getElementById("fiche");
+  const n = parseInt(new URLSearchParams(location.search).get("n") || "1", 10);
+  DVPE.charger(DVPE.fichier(n))
+    .then(() => { if (!DVPE.fiches[n]) throw new Error("Fiche " + n + " absente"); el.innerHTML = DVPE.rendreFiche(DVPE.fiches[n]); })
+    .catch(e => DVPE.erreur(el, e));
+</script>
+</body>
+</html>

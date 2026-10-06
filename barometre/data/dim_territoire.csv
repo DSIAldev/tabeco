@@ -1,0 +1,31 @@
+code;type;libelle;code_officiel;region_pdl;panel_national
+EPCI244900015;epci;Angers Loire Métropole;244900015;oui;non
+ZE-AMIENS;ze;Amiens;;non;oui
+ZE5202;ze;Angers;5202;oui;oui
+ZE-BORDEAUX;ze;Bordeaux;;non;oui
+ZE-BREST;ze;Brest;;non;oui
+ZE-CAEN;ze;Caen;;non;oui
+ZE-CHOLET;ze;Cholet;;oui;oui
+ZE-CLERMONT-FERRAND;ze;Clermont-Ferrand;;non;oui
+ZE-DIJON;ze;Dijon;;non;oui
+FR;pays;France;FRM;non;non
+ZE-GRENOBLE;ze;Grenoble;;non;oui
+ZE-LA-ROCHE-SUR-YON;ze;La Roche-sur-Yon;;oui;oui
+ZE-LAVAL;ze;Laval;;oui;oui
+ZE-LE-MANS;ze;Le Mans;;oui;oui
+D49;departement;Maine-et-Loire;49;oui;non
+ZE-METZ;ze;Metz;;non;oui
+ZE-MONTPELLIER;ze;Montpellier;;non;oui
+ZE-MULHOUSE;ze;Mulhouse;;non;oui
+ZE-NANCY;ze;Nancy;;non;oui
+ZE-NANTES;ze;Nantes;;oui;oui
+ZE-ORLEANS;ze;Orléans;;non;oui
+R52;region;Pays de la Loire;52;oui;non
+ZE-REIMS;ze;Reims;;non;oui
+ZE-RENNES;ze;Rennes;;non;oui
+ZE-SAINT-NAZAIRE;ze;Saint-Nazaire;;oui;oui
+ZE-SAUMUR;ze;Saumur;;oui;oui
+ZE-SEGRE-EN-ANJOU-BLEU;ze;Segré-en-Anjou Bleu;;oui;oui
+ZE-TOULOUSE;ze;Toulouse;;non;oui
+ZE-TOURS;ze;Tours;;non;oui
+ZE-VALENCIENNES;ze;Valenciennes;;non;oui

@@ -1,0 +1,9 @@
+code;tableau;type;indicateurs;territoires;periode;description
+TB01;TB01;page;;;derniere;Baromètre économique, A4 portrait 794x1123 px
+TB01-K1;TB01;tuiles;EMP01,EMP02,EMP03,EMP04,EMP05,EMP06;ZE5202,EPCI244900015;derniere;6 tuiles marché du travail : valeur, évolution colorée selon sens_favorable, sous-titre période/maille/source
+TB01-G1;TB01;courbe;EMP01;ZE5202,FR;2020-T4..derniere;Chômage ZE Angers vs France
+TB01-K2;TB01;tuiles;EMP07,ENT01,ENT02,EMP08;;derniere;Indicateurs à activer : [à charger] si pas de donnée, EMP08 calculé
+TB02;TB02;page;;;derniere;Parangonnage chômage, A4 paysage 1123x794 px
+TB02-K1;TB02;tuiles;EMP01;ZE5202,FR,D49,panel;derniere;4 tuiles : taux ZE (EMP01), écart France (EMP01-F), écart 49 (EMP01-D), rang dans le panel national (EMP01-R, 1 = plus bas)
+TB02-G1;TB02;courbe;EMP01;ZE5202,FR,D49,R52;2020-T4..derniere;4 séries, annotation point bas et dernière valeur
+TB02-T1;TB02;classement;EMP01;region_pdl=oui & type=ze;derniere;Barres horizontales triées décroissant + évolution sur un an, Angers en couleur d'accent
