@@ -12,6 +12,7 @@ prospectives.html     frise + catalogue des fiches (générés depuis les donné
 fiche.html?n=N        gabarit unique d'une fiche (même structure pour toutes)
 assets/dvpe.css       charte (écran + impression/export PDF A4)
 assets/logo-aldev.png logo Aldev (300 × 361), lien vers l'accueil sur toutes les pages
+favicon.ico, assets/favicon-32.png, assets/apple-touch-icon.png  icône d'onglet (pictogramme Aldev)
 assets/dvpe.js        chargement des données + rendu
 data/prospectives.js  catalogue : DVPE.liste = [1, 2, …]
 data/fiches/fiche-NN.js  contenu d'une fiche
