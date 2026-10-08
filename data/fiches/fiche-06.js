@@ -25,7 +25,7 @@ DVPE.fiche({
         "l": "documents de travail"
       },
       {
-        "v": "8",
+        "v": "11",
         "l": "études et jeux de données"
       },
       {
@@ -37,7 +37,7 @@ DVPE.fiche({
         "l": "références citées (à compter)"
       }
     ],
-    "sources": "Agreste GraphAgri 2025, prospectives Valhor, étude Asterès sur la filière du végétal (2018), poster Végétal 2050, chiffres clés 2026, Végépolys Valley."
+    "sources": "Agreste GraphAgri 2025, fiche filière horticulture FranceAgriMer 2026, observatoire financier 2024, prospectives Valhor, étude Asterès sur la filière du végétal (2018), poster Végétal 2050, chiffres clés 2026, « Du roi René à Végépolys », Végépolys Valley."
   },
   "diagnostic": {
     "titre": "Premiers éléments du diagnostic",
@@ -163,5 +163,42 @@ DVPE.fiche({
     },
     "apport": "[à rédiger une fois les scénarios arrêtés]"
   },
-  "source": "Source : documents de travail « Prospective horticulture ornementale » (2026), version provisoire"
+  "source": "Source : documents de travail « Prospective horticulture ornementale » (2026), version provisoire",
+  "liens": [
+    {
+      "titre": "Fiche filière horticulture",
+      "editeur": "FranceAgriMer",
+      "date": "2026",
+      "url": null,
+      "type": "etude"
+    },
+    {
+      "titre": "Observatoire financier 2024 (synthèse horticulture 2025)",
+      "editeur": null,
+      "date": "2025",
+      "url": null,
+      "type": "etude"
+    },
+    {
+      "titre": "Du roi René à Végépolys",
+      "editeur": null,
+      "date": null,
+      "url": null,
+      "type": "etude"
+    },
+    {
+      "titre": "GraphAgri 2025",
+      "editeur": "Agreste",
+      "date": "2025",
+      "url": null,
+      "type": "etude"
+    },
+    {
+      "titre": "La filière du végétal",
+      "editeur": "Asterès",
+      "date": "2018",
+      "url": null,
+      "type": "etude"
+    }
+  ]
 });

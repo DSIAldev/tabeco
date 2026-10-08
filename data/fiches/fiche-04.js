@@ -97,7 +97,7 @@ DVPE.fiche({
     ]
   },
   "bloc5": {
-    "titre": "Le miroir : Aldev en 2024",
+    "titre": "Le miroir : Aldev en 2026",
     "type": "statuts",
     "entete": "Mesure de protection",
     "lignes": [
@@ -106,7 +106,7 @@ DVPE.fiche({
         "ok"
       ],
       [
-        "Charte et sensibilisation des salariés",
+        "Antivirus sur tous les postes",
         "ok"
       ],
       [
@@ -114,19 +114,23 @@ DVPE.fiche({
         "ok"
       ],
       [
-        "Antivirus sur tous les postes",
-        "ok"
-      ],
-      [
         "Chiffrement des données",
         "ok"
       ],
       [
-        "Sauvegarde 3-2-1",
-        "partiel"
+        "Gestion automatisée des identités (IAM)",
+        "ok"
       ],
       [
         "Mises à jour des postes",
+        "ok"
+      ],
+      [
+        "Sauvegarde quotidienne du cloud sur NAS interne",
+        "ok"
+      ],
+      [
+        "Charte et sensibilisation des salariés",
         "partiel"
       ],
       [
@@ -134,23 +138,15 @@ DVPE.fiche({
         "partiel"
       ],
       [
-        "Mises à jour des serveurs",
-        "non"
-      ],
-      [
-        "Gestion automatisée des identités (IAM)",
-        "non"
-      ],
-      [
-        "Registre des incidents",
-        "non"
-      ],
-      [
         "Surveillance et détection des menaces",
+        "partiel"
+      ],
+      [
+        "Registre des incidents (planifié)",
         "non"
       ]
     ],
-    "note": "Auto-diagnostic intégré à l'étude : **5 mesures en place, 3 partielles, 4 à construire**."
+    "note": "Auto-diagnostic de l'étude en 2024 : 5 en place, 3 partielles, 4 à construire. **En 2026 : 7 en place, 3 en cours, 1 planifiée.**"
   },
   "reel": {
     "titre": "Deux ans après : le test du réel",
@@ -174,5 +170,28 @@ DVPE.fiche({
     ],
     "apport": "le scénario A se confirme, la menace monte et la réponse passe par la préparation. L'auto-diagnostic de 2024 est devenu la feuille de route d'Aldev."
   },
-  "source": "Source détaillée : « Prospective Cybersécurité » (juil. 2024, 50 p.)"
+  "source": "Source détaillée : « Prospective Cybersécurité » (juil. 2024, 50 p.)",
+  "liens": [
+    {
+      "titre": "Bilan cyber des Jeux olympiques et paralympiques de Paris 2024",
+      "editeur": "ANSSI",
+      "date": "2024",
+      "url": "https://cyber.gouv.fr/actualites/bilan-cyber-des-jeux-olympiques-et-paralympiques-de-paris-2024/",
+      "type": "reel"
+    },
+    {
+      "titre": "Panorama de la cybermenace 2024",
+      "editeur": "ANSSI",
+      "date": "2025-03-11",
+      "url": "https://cyber.gouv.fr/actualites/panorama-de-la-cybermenace-2024-mobilisation-et-vigilance-face-aux-attaquants",
+      "type": "reel"
+    },
+    {
+      "titre": "NIS 2 : retard de transposition, la France renvoyée devant la CJUE",
+      "editeur": "IT-Connect",
+      "date": "2026-07",
+      "url": "https://www.it-connect.fr/nis2-transposition-france-saisine-cjue/",
+      "type": "reel"
+    }
+  ]
 });

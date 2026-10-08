@@ -180,5 +180,21 @@ DVPE.fiche({
     },
     "apport": "pas un pronostic, mais une carte à jouer pour ALM dans chaque futur, et la question « si ce scénario se réalisait, serions-nous prêts ? »"
   },
-  "source": "Sources détaillées : « Prospective Intelligence artificielle » v11 et synthèse 4P (avril 2026)"
+  "source": "Sources détaillées : « Prospective Intelligence artificielle » v11 et synthèse 4P (avril 2026)",
+  "liens": [
+    {
+      "titre": "Les meilleures applications mobiles d'intelligence artificielle",
+      "editeur": "Anis Partage",
+      "date": "2023-05",
+      "url": "https://anispartage.com/les-meilleurs-application-android-et-iphone-de-intelligence-artificielle/",
+      "type": "favori"
+    },
+    {
+      "titre": "EU AI Act, le piège du report",
+      "editeur": "Journal du Net",
+      "date": "2026",
+      "url": "https://www.journaldunet.com/intelligence-artificielle/1550335-eu-ai-act-le-piege-du-report/",
+      "type": "reel"
+    }
+  ]
 });

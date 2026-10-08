@@ -217,5 +217,42 @@ DVPE.fiche({
     ],
     "apport": "aucun scénario ne s'est réalisé tel quel, mais les trois bifurcations étaient réelles. Le territoire disposait dès 2022 d'une grille pour lire ces retournements, plutôt que d'un seul pronostic."
   },
-  "source": "Sources détaillées : « Prospective Énergies du futur » v1 (sept. 2021, 37 p.) et « Scénarios » (févr. 2022, 15 p.)"
+  "source": "Sources détaillées : « Prospective Énergies du futur » v1 (sept. 2021, 37 p.) et « Scénarios » (févr. 2022, 15 p.)",
+  "liens": [
+    {
+      "titre": "Avec le centre de R&D d'ACC en Gironde, Stellantis et Saft veulent accélérer dans la production en série de batteries",
+      "editeur": "L'Usine Nouvelle",
+      "date": "2021-09",
+      "url": "https://www.usinenouvelle.com/editorial/avec-le-centre-de-r-d-d-acc-en-gironde-stellantis-et-saft-veulent-accelerer-dans-la-production-en-serie-de-batteries.N1143892",
+      "type": "favori"
+    },
+    {
+      "titre": "« Hydrogène naturel » : intérêt de recherche en France sur 5 ans",
+      "editeur": "Google Trends",
+      "date": "2022-01",
+      "url": "https://trends.google.fr/trends/explore?date=today%205-y&geo=FR&q=hydrog%C3%A8ne%20naturel",
+      "type": "favori"
+    },
+    {
+      "titre": "A foot on the brake for Europe's EV transition (paquet automobile, objectif 2035 à 90 %)",
+      "editeur": "Herbert Smith Freehills Kramer",
+      "date": "2025-12",
+      "url": "https://www.hsfkramer.com/insights/2025-12/a-foot-on-the-brake-for-europes-ev-transition",
+      "type": "reel"
+    },
+    {
+      "titre": "Hydrogène : le retrait de Stellantis fait trembler la filière",
+      "editeur": "Journal de l'Automobile",
+      "date": "2025-07",
+      "url": "https://journalauto.com/constructeurs/hydrogene-le-retrait-de-stellantis-fait-trembler-la-filiere/",
+      "type": "reel"
+    },
+    {
+      "titre": "Hydrogène : Hyvia, coentreprise de Renault, a été mise en liquidation (AFP)",
+      "editeur": "Connaissance des Énergies",
+      "date": "2025-02-19",
+      "url": "https://www.connaissancedesenergies.org/afp/hydrogene-hyvia-coentreprise-de-renault-ete-mise-en-liquidation-250219",
+      "type": "reel"
+    }
+  ]
 });

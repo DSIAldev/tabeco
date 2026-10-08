@@ -190,5 +190,42 @@ DVPE.fiche({
     ],
     "apport": "le rebond (B) l'emporte pour l'activité. Tous les scénarios ont surestimé le chômage : l'ampleur des amortisseurs publics était la variable sous-estimée, corrigée au fil des mises à jour."
   },
-  "source": "Source détaillée : « Scénarios d'après crise Covid-19 », version de juin 2020 (35 p.), note confidentielle interne"
+  "source": "Source détaillée : « Scénarios d'après crise Covid-19 », version de juin 2020 (35 p.), note confidentielle interne",
+  "liens": [
+    {
+      "titre": "Crise économique liée à la pandémie de Covid-19",
+      "editeur": "Wikipédia",
+      "date": "2021-01",
+      "url": "https://fr.wikipedia.org/wiki/Crise_%C3%A9conomique_li%C3%A9e_%C3%A0_la_pand%C3%A9mie_de_Covid-19",
+      "type": "favori"
+    },
+    {
+      "titre": "Comptes nationaux annuels : PIB 2020 et 2021 (séries révisées)",
+      "editeur": "Insee",
+      "date": "2023",
+      "url": "https://www.insee.fr/fr/statistiques/7623591",
+      "type": "reel"
+    },
+    {
+      "titre": "France Relance : le plan de relance de 100 Md€",
+      "editeur": "Ministère de l'Économie",
+      "date": "2020-09-03",
+      "url": "https://www.economie.gouv.fr/plan-relance",
+      "type": "reel"
+    },
+    {
+      "titre": "Le taux de chômage au quatrième trimestre 2022 (7,2 %)",
+      "editeur": "Insee",
+      "date": "2023-02-14",
+      "url": "https://www.insee.fr/fr/statistiques/6799848",
+      "type": "reel"
+    },
+    {
+      "titre": "Quel est l'impact économique des défaillances d'entreprises ?",
+      "editeur": "Banque de France",
+      "date": "2024",
+      "url": "https://www.banque-france.fr/fr/publications-et-statistiques/publications/quel-est-limpact-economique-des-defaillances-dentreprises",
+      "type": "reel"
+    }
+  ]
 });
