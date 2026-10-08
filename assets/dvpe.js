@@ -94,13 +94,81 @@
       <p class="apport"><strong>L'apport de la prospective :</strong> ${t(r.apport)}</p>`;
   }
 
+  // Sources dépliables : champ « liens » = [{ titre, editeur, date, url, type }], groupés par type dans cet ordre
+  const TYPES_LIENS = [
+    ["reel", "Test du réel"],
+    ["reference", "Références citées"],
+    ["etude", "Études de fond"],
+    ["citee", "Sources citées sans lien"],
+    ["favori", "Veille de l'époque"]
+  ];
+  const urlSure = (u) => typeof u === "string" && /^https?:\/\//i.test(u.trim());
+
+  function lien(l) {
+    const titre = urlSure(l.url)
+      ? `<a href="${esc(l.url.trim())}" target="_blank" rel="noopener">${esc(l.titre)}</a>`
+      : `<span>${esc(l.titre)}</span>`;
+    const meta = [l.editeur, l.date].filter((x) => x != null && String(x).trim() !== "").map(esc).join(" · ");
+    return `<li>${titre}${meta ? ` <span class="src-meta">${meta}</span>` : ""}</li>`;
+  }
+
+  function sources(liens) {
+    if (!Array.isArray(liens) || !liens.length) return "";
+    let total = 0;
+    const groupes = TYPES_LIENS.map(([type, intitule]) => {
+      const l = liens.filter((x) => x && x.type === type);
+      if (!l.length) return "";
+      total += l.length;
+      return `<section class="src-groupe"><h3>${esc(intitule)} <span>(${l.length})</span></h3><ul>${l.map(lien).join("")}</ul></section>`;
+    }).join("");
+    if (!total) return "";
+    return `<details id="sources" class="sources"><summary>Sources (${total})</summary><div class="src-groupes">${groupes}</div></details>`;
+  }
+
+  // Cible des QR codes imprimés : fiche.html?n=N#sources → bloc ouvert et page défilée jusqu'à lui
+  D.ouvrirSources = function () {
+    if (location.hash !== "#sources") return;
+    const d = document.getElementById("sources");
+    if (!d) return;
+    d.open = true;
+    requestAnimationFrame(() => d.scrollIntoView({ block: "start" }));
+  };
+
+  // Export PDF : la fiche est ajustée (zoom) pour tenir sur une page A4 portrait
+  const A4 = { largeur: 194, hauteur: 281 }; // mm utiles (A4 moins marges de 8 mm)
+  const MM = 96 / 25.4;
+  // On cherche la largeur de mise en page L telle que, une fois zoomée pour remplir la largeur utile,
+  // la fiche tienne aussi en hauteur : quelques itérations suffisent.
+  D.preparerImpression = function () {
+    const el = document.querySelector(".fiche");
+    if (!el) return;
+    document.documentElement.classList.add("impr");
+    const W = A4.largeur * MM, H = A4.hauteur * MM * 0.98;
+    let L = W, k = 1;
+    el.style.zoom = 1;
+    for (let i = 0; i < 6; i++) {
+      el.style.width = L + "px";
+      const h = el.scrollHeight;
+      k = Math.min(W / L, H / h);
+      const L2 = Math.min(W / k, 1400);
+      if (Math.abs(L2 - L) < 4) break;
+      L = L2;
+    }
+    el.style.zoom = k.toFixed(4);
+  };
+  D.finirImpression = function () {
+    const el = document.querySelector(".fiche");
+    document.documentElement.classList.remove("impr");
+    if (el) { el.style.zoom = ""; el.style.width = ""; }
+  };
+
   D.rendreFiche = function (f) {
     const n = f.id;
     const prec = D.liste.includes(n - 1) ? n - 1 : null, suiv = D.liste.includes(n + 1) ? n + 1 : null;
     document.title = `Fiche ${n} · ${f.titre} · DPE Aldev`;
     return `
     <header class="f-tete">
-      <a class="marque" href="index.html" aria-label="Accueil DPE"><span>aldev</span><small>Angers Loire Développement</small></a>
+      <a class="marque" href="index.html" title="Accueil DPE"><img src="assets/logo-aldev.png" alt="Aldev — Angers Loire Développement" width="300" height="361"></a>
       <div class="f-titres">
         <p class="kicker">${esc(f.direction || "DPE")} · Fiche prospective n°${n}${f.statut === "en cours" ? ' <span class="badge">En cours</span>' : ""}</p>
         <h1>${t(f.titre)}</h1>
@@ -133,6 +201,8 @@
     </div>
 
     <footer class="f-pied"><span>${t(f.source)}</span><span>${esc(f.direction || "DPE")} · Aldev</span></footer>
+
+    ${sources(f.liens)}
 
     <nav class="f-nav" aria-label="Navigation entre fiches">
       ${prec ? `<a href="fiche.html?n=${prec}">‹ Fiche ${prec}</a>` : "<span></span>"}

@@ -25,9 +25,10 @@
     el.innerHTML = `
       <div class="entete" style="flex-direction:column;align-items:stretch">
         <div style="display:flex;justify-content:space-between;gap:16px">
-          <div><div class="kicker">Aldev · Direction de la Prospective économique</div>
+          <div class="ag-titre"><a class="marque" href="../index.html" title="Accueil DPE"><img src="../assets/logo-aldev.png" alt="Aldev — Angers Loire Développement" width="300" height="361"></a>
+            <div><div class="kicker">Aldev · Direction de la Prospective économique</div>
             <h1>Indicateurs d'agence ${y}</h1>
-            <div class="st">Activité de l'agence sur le territoire d'Angers Loire Métropole</div></div>
+            <div class="st">Activité de l'agence sur le territoire d'Angers Loire Métropole</div></div></div>
           <div class="droite">${statut ? `<div class="statut">${G.esc(statut)}</div>` : ""}<div class="tb">RAPPORT D'ACTIVITÉ</div></div>
         </div>
         <div class="annees" role="group" aria-label="Année affichée"><span>Année</span>${m.annees.map((a) => `<button type="button" data-a="${a}" aria-pressed="${a === y}">${a}</button>`).join("")}</div>

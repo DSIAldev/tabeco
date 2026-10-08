@@ -2,6 +2,10 @@
 body { background: #F6F8F9; }
 .ag { max-width: 1180px; margin: 0 auto; padding: 24px 20px 64px; display: flex; flex-direction: column; gap: 18px; }
 .ag .entete { background: #fff; padding: 22px 24px 12px; border-radius: 6px; }
+/* Logo Aldev (assets/logo-aldev.png), lien vers l'accueil */
+.ag-titre { display: flex; gap: 18px; align-items: flex-start; }
+.ag .marque { display: inline-block; line-height: 0; flex: none; }
+.ag .marque img { display: block; height: 56px; width: auto; }
 .annees { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; }
 .annees span { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--sec); margin-right: 6px; text-transform: uppercase; }
 .annees button { font: 600 13px "Montserrat", sans-serif; border: 1px solid var(--bord); background: #fff; color: var(--texte); border-radius: 4px; padding: 6px 12px; cursor: pointer; font-variant-numeric: tabular-nums; }
@@ -49,6 +53,7 @@ body { background: #F6F8F9; }
 @media (max-width: 640px) {
   .emp-grille { grid-template-columns: 1fr; } .barres { grid-template-columns: 1fr auto; } .barres .b-rail, .barres .b-ev { display: none; }
   .graphes { grid-template-columns: 1fr; }
+  .ag-titre { gap: 12px; } .ag .marque img { height: 44px; }
 }
 @media print {
   @page { size: A4 portrait; margin: 10mm; }

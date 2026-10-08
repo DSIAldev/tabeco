@@ -21,15 +21,16 @@ p { margin: 0 0 10px; }
 .todo { color: var(--gris); font-style: italic; }
 
 /* Navigation commune */
-.barre-nav { display: flex; gap: 24px; padding: 14px clamp(16px, 4vw, 48px); border-bottom: 1px solid var(--trait); font-weight: 600; }
+.barre-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; padding: 14px clamp(16px, 4vw, 48px); border-bottom: 1px solid var(--trait); font-weight: 600; }
+.bouton-pdf { margin-left: auto; font: 600 14px var(--corps); color: var(--ardoise); background: #fff; border: 1.5px solid var(--ardoise); padding: 4px 12px; cursor: pointer; }
+.bouton-pdf:hover { background: var(--ardoise); color: #fff; }
+.bouton-pdf:focus-visible { outline: 3px solid var(--rouge); outline-offset: 2px; }
 .barre-nav a { text-decoration: none; }
 .barre-nav a:hover, .barre-nav a[aria-current] { color: var(--rouge); }
 
-/* Marque */
-.marque { display: inline-flex; flex-direction: column; text-decoration: none; color: var(--ardoise); }
-.marque span { font: 700 34px/1 var(--corps); letter-spacing: -.02em; }
-.marque span::first-letter { color: var(--rouge); }
-.marque small { font-size: 7.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+/* Marque : logo Aldev (assets/logo-aldev.png, 300 × 361) */
+.marque { display: inline-block; line-height: 0; text-decoration: none; }
+.marque img { display: block; height: 56px; width: auto; }
 
 /* ---------- Fiche ---------- */
 .fiche { max-width: 960px; margin: 0 auto; padding: 32px clamp(16px, 4vw, 44px) 48px; }
@@ -127,13 +128,30 @@ p { margin: 0 0 10px; }
 
 .f-pied { display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid var(--trait); padding-top: 10px; font-size: 13px; color: var(--gris); }
 .f-nav { display: flex; justify-content: space-between; margin-top: 28px; font-weight: 600; }
+
+/* Sources dépliables (champ « liens ») — cible des QR codes : fiche.html?n=N#sources */
+details.sources { margin-top: 24px; border-top: 3px solid var(--ardoise); scroll-margin-top: 16px; }
+details.sources > summary { cursor: pointer; padding: 10px 0; font: 700 20px var(--titres); letter-spacing: .02em; text-transform: uppercase; color: var(--ardoise); list-style: none; display: flex; align-items: center; gap: 10px; }
+details.sources > summary::-webkit-details-marker { display: none; }
+details.sources > summary::before { content: "▸"; color: var(--rouge); font-size: 16px; transition: transform .15s; }
+details.sources[open] > summary::before { transform: rotate(90deg); }
+details.sources > summary:hover { color: var(--rouge); }
+details.sources > summary:focus-visible { outline: 3px solid var(--rouge); outline-offset: 2px; }
+.src-groupes { columns: 2 340px; column-gap: 32px; padding-bottom: 8px; }
+.src-groupe { break-inside: avoid-column; margin-bottom: 16px; }
+.src-groupe h3 { font-size: 16px; text-transform: uppercase; letter-spacing: .04em; color: var(--ardoise); border-bottom: 1px solid var(--trait); padding-bottom: 4px; margin-bottom: 6px; }
+.src-groupe h3 span { color: var(--gris); font-weight: 600; }
+.src-groupe ul { list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 1.4; }
+.src-groupe li { padding: 4px 0; border-bottom: 1px dotted var(--trait); break-inside: avoid; overflow-wrap: anywhere; }
+.src-groupe li a { color: var(--ardoise); text-decoration-color: var(--rouge); text-underline-offset: 2px; }
+.src-groupe li a:hover { color: var(--rouge); }
+.src-meta { color: var(--gris); font-size: 13px; white-space: nowrap; }
 .erreur { color: var(--rouge); font-weight: 600; padding: 48px 0; }
 
 /* ---------- Accueil ---------- */
 .accueil { max-width: 1040px; margin: 0 auto; padding: 48px clamp(16px, 4vw, 48px) 64px; }
 .accueil-tete { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: end; border-bottom: 3px solid var(--rouge); padding-bottom: 24px; }
-.accueil-tete .marque span { font-size: 56px; }
-.accueil-tete .marque small { font-size: 11px; }
+.accueil-tete .marque img { height: 96px; }
 .accueil-tete h1 { font-size: clamp(38px, 6vw, 64px); color: var(--ardoise); }
 .accueil-tete p { color: var(--gris); margin: 10px 0 0; max-width: 62ch; font-size: 17px; }
 .portes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 36px; }
@@ -176,20 +194,35 @@ p { margin: 0 0 10px; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 820px) {
-  .f-tete { grid-template-columns: 1fr; gap: 12px; }
-  .f-meta { text-align: left; }
-  .rangee.deux, .scens, .portes { grid-template-columns: 1fr; }
-  .diag { grid-template-columns: 1fr 1fr; }
-  .tuiles { grid-template-columns: 1fr 1fr; }
+  html:not(.impr) .f-tete { grid-template-columns: 1fr; gap: 12px; }
+  html:not(.impr) .f-meta { text-align: left; }
+  html:not(.impr) .rangee.deux, html:not(.impr) .scens, .portes { grid-template-columns: 1fr; }
+  html:not(.impr) .diag { grid-template-columns: 1fr 1fr; }
+  html:not(.impr) .tuiles { grid-template-columns: 1fr 1fr; }
   .accueil-tete { grid-template-columns: 1fr; }
+  .accueil-tete .marque img { height: 72px; }
   .cat li { grid-template-columns: 48px 1fr; }
   .cat .per { grid-column: 2; text-align: left; }
   .porte + .porte { margin-top: 16px; }
 }
+@media (max-width: 480px) {
+  .barre-nav { gap: 6px 16px; font-size: 14px; }
+  .bouton-pdf { margin-left: 0; }
+  html:not(.impr) .f-meta { white-space: normal; }
+  .src-meta { white-space: normal; }
+}
+
+/* ---------- Impression / export PDF : une page A4 portrait ----------
+   html.impr est posé par DVPE.preparerImpression (beforeprint) : il fixe la mise en page imprimée,
+   la mesure, puis applique un zoom pour que la fiche tienne sur une seule page. */
+html.impr .fiche { max-width: none; padding: 0; margin: 0; }
+html.impr .f-tete h1 { font-size: 40px; }
+html.impr .f-nav, html.impr details.sources, html.impr .barre-nav { display: none; }
+html.impr .fiche > section, html.impr .rangee, html.impr .scen, html.impr .encart, html.impr .reel, html.impr .f-tete, html.impr .f-pied { break-inside: avoid; page-break-inside: avoid; }
 @media print {
-  @page { size: A4; margin: 10mm; }
-  body { font-size: 11px; }
-  .barre-nav, .f-nav { display: none; }
+  @page { size: A4 portrait; margin: 8mm; }
+  .barre-nav, .f-nav, .bouton-pdf, details.sources { display: none !important; }
   .fiche { padding: 0; max-width: none; }
+  .fiche > section, .rangee, .scen, .encart, .reel, .f-tete, .f-pied { break-inside: avoid; page-break-inside: avoid; }
   .reel, .scen header, .barre span, .case, .pastille, .encart { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
